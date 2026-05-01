@@ -121,6 +121,15 @@
           </button>
         </header>
 
+        <!-- Dashboard banner image -->
+        <div class="dashboard-banner" id="dashboardBanner">
+          <img src="assets/dashboard-banner.png" alt="" aria-hidden="true" />
+          <div class="banner-overlay">
+            <p class="banner-label">Your momentum is building</p>
+            <p class="banner-sub">Keep logging — patterns emerge over time.</p>
+          </div>
+        </div>
+
         <section id="dashboardView" class="view active-view" aria-labelledby="dashboardTitle">
           <div class="section-heading">
             <div>
@@ -133,11 +142,7 @@
           <div id="summaryStrip" class="summary-strip" aria-live="polite"></div>
           <div id="trackerGrid" class="tracker-grid"></div>
           <div id="emptyState" class="empty-state hidden">
-            <div class="empty-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-              </svg>
-            </div>
+            <img class="empty-img" src="assets/empty-state.png" alt="" aria-hidden="true" />
             <h3>No trackers yet</h3>
             <p>Add one thing you want to watch, then log a value whenever it changes.</p>
             <button class="primary-button" data-open-form type="button">Create first tracker</button>
