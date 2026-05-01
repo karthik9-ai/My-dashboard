@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tracker — Daily signals, cleanly logged</title>
+    <meta name="description" content="A premium daily tracker app to log habits, metrics, and goals with beautiful insights." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Tracker navigation">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h1>Tracker</h1>
+            <p>Daily signals, cleanly logged.</p>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="Views">
+          <button class="nav-button active" data-view="dashboard" type="button" id="nav-dashboard">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-button" data-view="log" type="button" id="nav-log">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Log</span>
+          </button>
+          <button class="nav-button" data-view="insights" type="button" id="nav-insights">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Insights</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-actions">
+          <button id="exportData" class="ghost-button" type="button">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Export
+          </button>
+          <label class="ghost-button file-button" for="importData">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Import
+          </label>
+          <input id="importData" type="file" accept="application/json" />
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="sidebar-footer-dot"></div>
+          <span>All data stored locally</span>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h2 id="todayLabel">Loading…</h2>
+          </div>
+          <button id="newTrackerButton" class="primary-button" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            New tracker
+          </button>
+        </header>
+
+        <section id="dashboardView" class="view active-view" aria-labelledby="dashboardTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Overview</p>
+              <h2 id="dashboardTitle">Active trackers</h2>
+            </div>
+            <select id="categoryFilter" aria-label="Filter trackers by category"></select>
+          </div>
+
+          <div id="summaryStrip" class="summary-strip" aria-live="polite"></div>
+          <div id="trackerGrid" class="tracker-grid"></div>
+          <div id="emptyState" class="empty-state hidden">
+            <div class="empty-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <h3>No trackers yet</h3>
+            <p>Add one thing you want to watch, then log a value whenever it changes.</p>
+            <button class="primary-button" data-open-form type="button">Create first tracker</button>
+          </div>
+        </section>
+
+        <section id="logView" class="view" aria-labelledby="logTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Logbook</p>
+              <h2 id="logTitle">Recent entries</h2>
+            </div>
+            <div class="search-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input id="entrySearch" type="search" placeholder="Search notes or tracker" aria-label="Search entries" />
+            </div>
+          </div>
+          <div id="entryList" class="entry-list"></div>
+        </section>
+
+        <section id="insightsView" class="view" aria-labelledby="insightsTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Patterns</p>
+              <h2 id="insightsTitle">Seven day pulse</h2>
+            </div>
+          </div>
+          <div id="insightGrid" class="insight-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="trackerDialog">
+      <form id="trackerForm" method="dialog">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">Tracker setup</p>
+            <h2 id="dialogTitle">New tracker</h2>
+          </div>
+          <button class="icon-button" value="cancel" type="submit" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <label>
+          <span class="label-text">Name</span>
+          <input id="trackerName" name="name" required maxlength="40" placeholder="Water, reading, revenue" />
+        </label>
+
+        <div class="form-row">
+          <label>
+            <span class="label-text">Category</span>
+            <input id="trackerCategory" name="category" maxlength="24" placeholder="Health" />
+          </label>
+          <label>
+            <span class="label-text">Unit</span>
+            <input id="trackerUnit" name="unit" maxlength="12" placeholder="cups" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>
+            <span class="label-text">Daily target</span>
+            <input id="trackerTarget" name="target" type="number" min="0" step="0.1" required />
+          </label>
+          <label>
+            <span class="label-text">Accent color</span>
+            <div class="color-wrap">
+              <input id="trackerColor" name="color" type="color" value="#6c63ff" />
+              <span class="color-label">Pick a color</span>
+            </div>
+          </label>
+        </div>
+
+        <menu>
+          <button class="ghost-button" value="cancel" type="submit">Cancel</button>
+          <button class="primary-button" id="saveTracker" value="default" type="submit">Save tracker</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <template id="trackerCardTemplate">
+      <article class="tracker-card">
+        <div class="card-topline">
+          <span class="category-pill"></span>
+          <button class="icon-button menu-trigger" type="button" aria-label="Tracker menu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="5" r="1"></circle>
+              <circle cx="12" cy="12" r="1"></circle>
+              <circle cx="12" cy="19" r="1"></circle>
+            </svg>
+          </button>
+        </div>
+        <h3></h3>
+        <div class="metric-row">
+          <span class="current-value"></span>
+          <span class="target-value"></span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><span></span></div>
+        <form class="quick-log">
+          <input type="number" min="0" step="0.1" aria-label="Value to log" />
+          <button type="submit">Log</button>
+        </form>
+        <p class="card-note"></p>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
