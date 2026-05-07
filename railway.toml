@@ -1,0 +1,6 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "serve . -p $PORT"
+restartPolicyType = "on_failure"

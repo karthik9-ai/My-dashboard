@@ -1,0 +1,11 @@
+{
+  "name": "my-dashboard",
+  "version": "1.0.0",
+  "description": "Premium daily habit & metric tracker",
+  "scripts": {
+    "start": "serve . -p ${PORT:-8080}"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}
